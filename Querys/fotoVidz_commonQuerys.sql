@@ -11,19 +11,57 @@ select * from seguimiento;
 select * from usuario;
 
 -- cuantos usuarios tiene la app?
-select count(*) from usuario;
+SELECT 
+    COUNT(*)
+FROM
+    usuario;
 
 -- cuantos usuarios sigue determinado usuario?
+SELECT 
+    COUNT(idUsuarioSeguido) followsDeUser1
+FROM
+    seguimiento
+where idUsuario = 1;
 
 -- cuantos usuarios siguen a determinado usuario?
+SELECT 
+    COUNT(idUsuario)
+FROM
+    seguimiento
+WHERE
+    idUsuarioSeguido = 1;
 
 -- cuantos usuarios sigue cada usuario?
+SELECT 
+	idUsuario,
+    COUNT(idUsuarioSeguido) as 'follows'
+FROM
+    seguimiento
+GROUP BY idUsuario;
 
+-- subconsulta y agrupacion
 -- cuantos usuarios promedio sigue cada usuario?
+SELECT 
+    AVG(cantidadSeguidos) AS promedioDeFollows
+FROM
+    (SELECT 
+        idUsuario, COUNT(*) AS cantidadSeguidos
+    FROM
+        seguimiento
+    GROUP BY idUsuario) AS subconsulta;
 
--- cuantos usuarios siguen a cada usuario?
+-- cuantos usuarios siguen a determinado usuario?
+select count(*)
+from seguimiento
+where idUsuarioSeguido = 2;
 
 -- cuantos usuarios sigue y siguen a todos y cada uno de los usuario?
+select
+	idUsuario,
+    count(idUsuarioSeguido) as qtyFollows,
+    count() as qtyFollowers
+from seguimiento
+group by idUsuario;
 
 -- cuantos albums tiene cada usuario?
 

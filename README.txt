@@ -1,4 +1,7 @@
-DER: abrir con draw.io para visualizar el diagrama de entidad relación
-Diseño físico: creacion de la base de datos y sus tablas en MySQL
-Instanciación: 
-se puede crear diccionario de datos.md nombres 
+DER: Diagrama de entidad relación como imagen y como archivo XML para visualizarlo
+con draw.io
+Scripts: 
+	creation: para la creación de la BD y sus tablas
+	init: para la instanciación de las entidades 
+
+
