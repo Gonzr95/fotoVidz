@@ -1,6 +1,4 @@
 use fotoVidz;
-select * from geolocalizacion;
-select * from album;
 
 insert into usuario (mail, nombreDeUsuario, pass, hashedPass) VALUES
 ('usuario1@email.com', 'usuario1', 'Inicio1', 'a'),

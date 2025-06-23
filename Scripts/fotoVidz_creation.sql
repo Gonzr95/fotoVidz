@@ -8,12 +8,13 @@ Proposito del script:
     Luego se crean las tablas:
 		-usuario
 		-seguimiento
-        -album
-        -colaborador
-        -foto_video
         -geolocalizacion
-        -etiqueta    
-        -album_foto_video
+        -foto_video
+        -etiqueta
+        -album
+		-album_foto_video
+        -colaborador
+
 ATENCION:
     Ejecutar el script eliminara la BD fotoVidz permanentemente junto
     sus datos, si existe. 
@@ -21,7 +22,6 @@ ATENCION:
 DROP DATABASE IF EXISTS fotoVidz;
 CREATE DATABASE fotoVidz;
 USE fotoVidz;
-
 
 create table usuario(
 	id int unique not null auto_increment,
@@ -39,16 +39,6 @@ create table seguimiento(
     foreign key(idUsuarioSeguido) references usuario(id) 
 );
 
-create table etiqueta(
-	etiquetadoPor_userID int not null,
-    etiquetaA_UserID int not null,
-    foto_video_ID int not null,
-    primary key(etiquetadoPor_userID, etiquetaA_UserID, foto_video_ID),  -- PK compuesta para evitar duplicidad
-	foreign key(etiquetadoPor_userID) references usuario(id),
-    foreign key(etiquetaA_UserID) references usuario(id),
-    foreign key(foto_video_ID) references foto_video(id)
-);
-
 create table geolocalizacion(
 	id int unique not null auto_increment,
     nombre varchar(31) unique not null     -- indica el nombre de la ciudad o lugar donde se etiqueto
@@ -64,11 +54,13 @@ create table foto_video(
     foreign key(geolocalizacion_ID) references geolocalizacion(id)
 );
 
-create table album_foto_video (
-    album_ID int not null,                -- Indica a que album pertenece
-    foto_video_ID int not null,		      -- Indica la foto o el video que referencia
-    primary key(album_ID, foto_video_ID),    -- PK compuesta para evitarnos duplicados
-    foreign key(album_ID) references album(id),
+create table etiqueta(
+	etiquetadoPor_userID int not null,
+    etiquetaA_UserID int not null,
+    foto_video_ID int not null,
+    primary key(etiquetadoPor_userID, etiquetaA_UserID, foto_video_ID),  -- PK compuesta para evitar duplicidad
+	foreign key(etiquetadoPor_userID) references usuario(id),
+    foreign key(etiquetaA_UserID) references usuario(id),
     foreign key(foto_video_ID) references foto_video(id)
 );
 
@@ -80,6 +72,14 @@ create table album(
     fechaDeCreacion timestamp not null default current_timestamp,
     primary key(id),
     foreign key(creadoPor_UserID) references usuario(id)
+);
+
+create table album_foto_video (
+    album_ID int not null,                -- Indica a que album pertenece
+    foto_video_ID int not null,		      -- Indica la foto o el video que referencia
+    primary key(album_ID, foto_video_ID),    -- PK compuesta para evitarnos duplicados
+    foreign key(album_ID) references album(id),
+    foreign key(foto_video_ID) references foto_video(id)
 );
 
 create table colaborador(
