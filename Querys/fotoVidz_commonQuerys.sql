@@ -90,7 +90,7 @@ FROM
         album_foto_video
     GROUP BY album_ID) AS subconsulta;
 
--- cuantas fotos promedio tienenlalbum?
+-- cuantas fotos promedio tienenlalbum?
 
 -- cuantos colaboradores hay en toda la app?
 
