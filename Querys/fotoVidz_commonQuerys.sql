@@ -56,18 +56,41 @@ from seguimiento
 where idUsuarioSeguido = 2;
 
 -- cuantos usuarios sigue y siguen a todos y cada uno de los usuario?
-select
-	idUsuario,
-    count(idUsuarioSeguido) as qtyFollows,
-    count() as qtyFollowers
-from seguimiento
-group by idUsuario;
+SELECT 
+    idUsuario, 
+    COUNT(idUsuarioSeguido) AS qtyFollows,
+	COUNT(idUsuario) as qtyFollowers
+    from
+		(select
+        
+		)
+FROM
+    seguimiento
+GROUP BY idUsuario;
 
 -- cuantos albums tiene cada usuario?
+SELECT 
+    COUNT(creadoPor_UserID) AS qtyAlbumbsByUser
+FROM
+    album
+GROUP BY creadoPor_UserID;
 
 -- cuantas fotos tiene cada album?
+select album_ID, count(foto_video_ID)
+from album_foto_video
+group by album_ID;
 
--- cuantas fotos promedio tiene cada album?
+-- cuantas fotos promedio tienen los album?
+SELECT 
+    AVG(qtyFotos) AS promedioDeFotos
+FROM
+    (SELECT 
+        COUNT(foto_video_ID) AS qtyFotos
+    FROM
+        album_foto_video
+    GROUP BY album_ID) AS subconsulta;
+
+-- cuantas fotos promedio tienenlalbum?
 
 -- cuantos colaboradores hay en toda la app?
 
