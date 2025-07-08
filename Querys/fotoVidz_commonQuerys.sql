@@ -3,168 +3,235 @@
 -------------------------------------------------------------------------------
 
    Contenido:
-     1. SELECT ALL COLUMNS
-     2. SELECT SPECIFIC COLUMNS
-     3. WHERE CLAUSE
-     4. ORDER BY
-     5. GROUP BY
-     6. HAVING
-     7. DISTINCT
-     8. TOP
-     9. Combining Queries
+     1. SELECT COLUMNS & SPECIFIC COLUMNS
+     2. WHERE CLAUSE + OPERADORES DE COMPARACIONN
+     3. ORDER BY
+     4. DISTINCT
+     5. TOP / LIMIT
+     6. operadores logicos
+     7. BETWEEN IN INKE 
+     8. GROUP BY
+     9. HAVING
 	 10. COOL STUFF - Additional SQL Features
-     
-     Mostrar todos los usuarios de la app
-     Mostrar los nombres de los usuarios y su fecha de nacimiento
      
 =================================================================================
 */
 
-use fotoVidz;
-show tables;
+/*
+Bloque 1 – SELECT ALL / SPECIFIC COLUMNS
+1.	Mostrar todos los datos de todos los usuarios.
+2.	Mostrar solo el nombreDeUsuario y fechaNac de todos los usuarios.
+3.	Obtener todos los álbumes con sus títulos y fecha de creación.
+4.	Listar todos los filePath de fotos o videos y su subidoPor.
+5.	Mostrar todos los campos de la tabla geolocalizacion.
+*/
 
-select * from album;
-select * from album_foto_video;
-select * from colaborador;
-select * from etiqueta;
-select * from foto_video;
-select * from geolocalizacion;
-select * from seguimiento;
-select * from usuario;
+-- 1)
+SELECT * from usuario;
 
-
--- Mostrar todos los usuarios de la app
-select * from usuario;
-
--- Mostrar nombre y fecha de nacimiento de los usuarios
-select
-	nombreDeUsuario,
-    fechaNac
+-- 2)
+select nombreDeUsuario, fechaNac
 from usuario;
 
--- Mostrar nombre de usuario y edad de los usuarios
-select
-nombreDeUsuario,
-timestampdiff(YEAR, fechaNac, CURDATE()) as edad
-from usuario;
+-- 3)
+select titulo, fechaDeCreacion from album;
 
--- mostrar nombre de usuario y edad de los usuarios mayores de edad
-select
-nombreDeUsuario,
-timestampdiff(YEAR, fechaNac, CURDATE()) as edad
-from usuario
-where timestampdiff(YEAR, fechaNac, CURDATE()) > 18;
+-- 4)
+select filePath, subidoPor from foto_video;
 
--- mostrar el promedio de edad de los usuarios que sea mayores de edad
-SELECT 
-    AVG(TIMESTAMPDIFF(YEAR, fechaNac, CURDATE())) AS edadPromedio
-FROM
-    usuario
-    WHERE timestampdiff(YEAR, fechaNac, CURDATE()) > 18;
+-- ======================================================
 
--- mostrar los usuarios ordenandolos por edad desc, mostrar nombre y edad
-SELECT 
-    nombreDeUsuario,
-    TIMESTAMPDIFF(YEAR, fechaNac, CURDATE()) AS edad
-FROM
-    usuario
-ORDER BY TIMESTAMPDIFF(YEAR, fechaNac, CURDATE()) DESC;
+-- 6)
+select * from usuario
+where fechaNac > '2000-12-31';
 
+desc foto_video;
+-- 7)
+select * from foto_video 
+where subidoPor = 3;
 
--- cuantos usuarios tiene la app?
-SELECT 
-    COUNT(*)
-FROM
-    usuario;
+-- 8)
+select * from album where creadoPor_UserID = 1;
 
--- cuantos usuarios sigue determinado usuario?
-SELECT 
-    COUNT(idUsuarioSeguido) followsDeUser1
-FROM
-    seguimiento
-where idUsuario = 1;
+-- 9)
+select * from usuario where mail like '%mail.com';
 
--- cuantos usuarios siguen a determinado usuario?
-SELECT 
-    COUNT(idUsuario)
-FROM
-    seguimiento
-WHERE
-    idUsuarioSeguido = 1;
+-- 10)
+select * from foto_video
+where geolocalizacion_id is not null;
 
--- cuantos usuarios sigue cada usuario?
-SELECT 
-	idUsuario,
-    COUNT(idUsuarioSeguido) as 'follows'
-FROM
-    seguimiento
-GROUP BY idUsuario;
+-- =====================================================
 
--- subconsulta y agrupacion
--- cuantos usuarios promedio sigue cada usuario?
-SELECT 
-    AVG(cantidadSeguidos) AS promedioDeFollows
-FROM
-    (SELECT 
-        idUsuario, COUNT(*) AS cantidadSeguidos
-    FROM
-        seguimiento
-    GROUP BY idUsuario) AS subconsulta;
+-- 11)
+select * from usuario
+order by fechaNac desc;
 
--- cuantos usuarios siguen a determinado usuario?
-select count(*)
-from seguimiento
-where idUsuarioSeguido = 2;
+-- 12)
+select * from foto_video 
+order by filePath asc;
 
--- cuantos usuarios sigue y siguen a todos y cada uno de los usuario?
-SELECT 
-    idUsuario, 
-    COUNT(idUsuarioSeguido) AS qtyFollows,
-	COUNT(idUsuario) as qtyFollowers
-    from
-		(select
-        
-		)
-FROM
-    seguimiento
-GROUP BY idUsuario;
+-- 13)
+select * from album
+order by fechaDeCreacion desc;
 
--- cuantos albums tiene cada usuario?
-SELECT 
-    COUNT(creadoPor_UserID) AS qtyAlbumbsByUser
-FROM
-    album
-GROUP BY creadoPor_UserID;
+-- 14)
+select mail from usuario
+order by mail asc;
 
--- cuantas fotos tiene cada album?
-select album_ID, count(foto_video_ID)
+-- 15) 
+select * from geolocalizacion 
+order by nombre asc;
+
+-- ====================================================
+-- 16)
+select distinct geolocalizacion_id from foto_video;
+
+-- 17)
+select distinct idUsuario, idUsuarioSeguido
+from seguimiento;
+
+ -- 18)
+ select distinct titulo
+ from album;
+ 
+ -- 19)
+ select distinct subidoPor from foto_video;
+ 
+ -- 20)
+ select distinct foto_video_ID from etiqueta;
+ 
+ -- 21)
+ select * from usuario
+ order by fechaNac desc
+ limit 3;
+ 
+ -- 22)
+ select * from album
+ order by fechaDeCreacion desc
+ limit 2;
+ 
+ -- 23)
+ select * from foto_video
+ limit 2;
+ 
+ -- 24) 
+ select id, mail from usuario
+ order by id asc
+ limit 2;
+ 
+ -- 25) 
+ select id, mail from usuario
+ order by id asc
+ limit 4;
+ 
+ -- 26)
+ select * from usuario
+ where fechaNac > '2000-12-31' and mail like '%o%';
+ 
+ -- 27)
+  select * from foto_video;
+  select * from foto_video
+  where subidoPor = 2 and geolocalizacion_ID is null;
+  
+  -- 28)
+  select * from album
+  where esPrivado = false
+  or creadoPor_UserID = 1;
+  
+  -- 29)
+  select * from etiqueta
+  where etiquetadoPor_userID <> etiquetaA_UserID;
+  
+  -- 30)
+  select * from usuario;
+  select * from usuario
+  where nombreDeUsuario like "%rio5%"
+  and mail like "%.com";
+  
+  -- 31)
+  select * from usuario
+  where fechaNac between '1990-01-01' and '2010-12-31';
+  
+  -- 32)
+  select * from foto_video
+  where id between 1 and 10;
+  
+  -- 33)
+  select * from album
+  where creadoPor_UserID in (1,3,5);
+  
+  -- 34)
+  select * from usuario
+  where nombreDeUsuario like "u%";
+  
+  -- 35)
+  select * from album
+  where titulo like "%viaje%";
+  
+  -- 36)
+  select subidoPor, count(id) as cantidad 
+  from foto_video
+  group by subidoPor;
+  
+  -- 37)
+  select creadoPor_UserID, count(id) as cantidad
+  from album
+  group by creadoPor_UserID;
+  
+  -- 38)
+  select * from foto_video;
+  select geolocalizacion_ID, count(id) as cantidad 
+  from foto_video
+  where geolocalizacion_ID is not null
+  group by geolocalizacion_ID;
+  
+  -- 39)
+  select etiquetadoPor_userID as userID ,count(foto_video_ID) as cantidad
+  from etiqueta
+  group by etiquetadoPor_userID;
+  
+  -- 40)
+  select count(album_ID) as cantidadFotos
+  from album_foto_video
+  group by album_ID;
+
+-- 41)
+select subidoPor as userId, count(*) as cantidadDeArchivos
+from foto_video
+group by subidoPor
+having cantidadDeArchivos > 3;
+
+-- 42)
+select album_ID, count(foto_video_ID) as cantidadDeArchivos
 from album_foto_video
-group by album_ID;
+group by album_ID
+having cantidadDeArchivos > 3;
 
--- cuantas fotos promedio tienen los album?
-SELECT 
-    AVG(qtyFotos) AS promedioDeFotos
-FROM
-    (SELECT 
-        COUNT(foto_video_ID) AS qtyFotos
-    FROM
-        album_foto_video
-    GROUP BY album_ID) AS subconsulta;
+-- 43)
+select etiquetadoPor_userID
+from etiqueta
+group by etiquetadoPor_userID
+having count(distinct etiquetaA_UserID) > 1;
 
--- cuantas fotos promedio tienenlalbum?
+ -- 44)
+select geolocalizacion_ID
+from foto_video
+group by geolocalizacion_ID
+having count(*) > 2;
 
--- cuantos colaboradores hay en toda la app?
+-- 45)
+select idUsuario
+from colaborador
+group by idUsuario
+having count(*) > 1 ;
 
--- cuantas fotos tienen geolocalizacion? 
+-- 46)
 
--- borrado en casacada: borrar una foto, su etiqueta y geolocalizacion
+-- 47)
 
--- si un usuario dueño de album borra dicho album, borrar las fotos que haya subido el pero no sos colaboradores.
+-- 48)
 
--- creo nuevos albums individuales para cada uno de los colaboradores huerfanos?
+-- 49)
 
--- stored procedures para las 2 consultas anteriores? 
-
--- trigger para avisar si se generan mas de 2 albums en el mismo dia por el mismo usuario
-
--- 
+-- 50)
+  

@@ -15,13 +15,7 @@ Scripts:
 	init: para la instanciación de las entidades 
 
 Querys:
-	fotoVidz_commonQuerys: aca vamos a encontrar consultas de nivel basico intermedio que incluyen temas como funciones de agregacion, agrupacion, filtrado de datos, operadores de comparacion y logicos **agregar temas**
-Se responderan preguntas como:
--Cuantos usuarios siguen a determinado usuario?
--Cuantos usuarios tiene la app?
--Cuantas fotos promedio tienen los albums?
--cuantas fotos tiene cada album?
--etc
+	fotoVidz_commonQuerys: aca vamos a encontrar consultas de nivel basico intermedio que incluyen temas como funciones de agregacion, agrupacion, filtrado de datos, operadores de comparacion y logicos 
 
 	fotoVidz_intermediateQuerys: en este archivo encontraremos consultas de nivel intermedio que incluyen temas como subconsultas funciones de strings, joins, nulls, dates  **agregar**
 
