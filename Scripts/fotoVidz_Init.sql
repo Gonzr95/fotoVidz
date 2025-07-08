@@ -1,6 +1,6 @@
 use fotoVidz;
 
-insert into usuario (mail, nombreDeUsuario, pass, hashedPass) VALUES
+insert into usuario (mail, nombreDeUsuario, pass, hashedPass, fechaNac) VALUES
 ('usuario1@email.com', 'usuario1', 'Inicio1', 'a', '1995-08-10'),
 ('usuario2@email.com', 'usuario2', 'Inicio1', 'a', '1980-02-10'),
 ('usuario3@email.com', 'usuario3', 'Inicio1', 'a', '2000-06-09'),
