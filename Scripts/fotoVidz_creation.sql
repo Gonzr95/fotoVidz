@@ -23,68 +23,85 @@ DROP DATABASE IF EXISTS fotoVidz;
 CREATE DATABASE fotoVidz;
 USE fotoVidz;
 
-create table usuario(
-	id int unique not null auto_increment,
-    mail varchar(63) unique not null,
-    nombreDeUsuario varchar(31) unique not null,
-    pass varchar(63) not null,
-    hashedPass varchar(255) not null,
-    primary key(id)
+CREATE TABLE usuario (
+    id INT UNIQUE NOT NULL AUTO_INCREMENT,
+    mail VARCHAR(63) UNIQUE NOT NULL,
+    nombreDeUsuario VARCHAR(31) UNIQUE NOT NULL,
+    pass VARCHAR(63) NOT NULL,
+    hashedPass VARCHAR(255) NOT NULL,
+    fechaNac DATE NOT NULL,
+    PRIMARY KEY (id)
 );
 
-create table seguimiento(
-	idUsuario int not null,                 -- usuarioA que realiza la accion de seguir a usuarioB
-	idUsuarioSeguido int not null,          -- usuario que es seguido x usuarioA
-    foreign key(idUsuario) references usuario(id),
-    foreign key(idUsuarioSeguido) references usuario(id) 
+CREATE TABLE seguimiento (
+    idUsuario INT NOT NULL,
+    idUsuarioSeguido INT NOT NULL,
+    FOREIGN KEY (idUsuario)
+        REFERENCES usuario (id),
+    FOREIGN KEY (idUsuarioSeguido)
+        REFERENCES usuario (id),
+    PRIMARY KEY (idUsuario , idUsuarioSeguido),
+    CHECK (idUsuario <> idUsuarioSeguido)
 );
 
-create table geolocalizacion(
-	id int unique not null auto_increment,
-    nombre varchar(31) unique not null     -- indica el nombre de la ciudad o lugar donde se etiqueto
+CREATE TABLE geolocalizacion (
+    id INT UNIQUE NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(31) UNIQUE NOT NULL,
+    PRIMARY KEY (id)
 );
 
-create table foto_video(
-	id int unique not null auto_increment,
-    filePath varchar(255) unique not null, -- Indica la ubicacion del archivo en disco
-    subidoPor int not null,                -- Indica el id del usuario que realizo la subida del archivo
-    geolocalizacion_ID int,				   -- Referencia el id de la localizacion (puede ser nulo)
-    primary key(id),
-    foreign key(subidoPor) references usuario(id),
-    foreign key(geolocalizacion_ID) references geolocalizacion(id)
+CREATE TABLE foto_video (
+    id INT UNIQUE NOT NULL AUTO_INCREMENT,
+    filePath VARCHAR(255) UNIQUE NOT NULL,
+    subidoPor INT NOT NULL,
+    geolocalizacion_ID INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (subidoPor)
+        REFERENCES usuario (id),
+    FOREIGN KEY (geolocalizacion_ID)
+        REFERENCES geolocalizacion (id)
 );
 
-create table etiqueta(
-	etiquetadoPor_userID int not null,
-    etiquetaA_UserID int not null,
-    foto_video_ID int not null,
-    primary key(etiquetadoPor_userID, etiquetaA_UserID, foto_video_ID),  -- PK compuesta para evitar duplicidad
-	foreign key(etiquetadoPor_userID) references usuario(id),
-    foreign key(etiquetaA_UserID) references usuario(id),
-    foreign key(foto_video_ID) references foto_video(id)
+CREATE TABLE etiqueta (
+    etiquetadoPor_userID INT NOT NULL,
+    etiquetaA_UserID INT NOT NULL,
+    foto_video_ID INT NOT NULL,
+    PRIMARY KEY (etiquetadoPor_userID , etiquetaA_UserID , foto_video_ID), -- PK compuesta para evitar duplicidad
+    FOREIGN KEY (etiquetadoPor_userID)
+        REFERENCES usuario (id),
+    FOREIGN KEY (etiquetaA_UserID)
+        REFERENCES usuario (id),
+    FOREIGN KEY (foto_video_ID)
+        REFERENCES foto_video (id)
 );
 
-create table album(
-	id int unique not null auto_increment,
-    titulo varchar(31),
-    esPrivado boolean default true,
-    creadoPor_UserID int not null,
-    fechaDeCreacion timestamp not null default current_timestamp,
-    primary key(id),
-    foreign key(creadoPor_UserID) references usuario(id)
+CREATE TABLE album (
+    id INT UNIQUE NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(31),
+    esPrivado BOOLEAN DEFAULT TRUE,
+    creadoPor_UserID INT NOT NULL,
+    fechaDeCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (creadoPor_UserID)
+        REFERENCES usuario (id)
 );
 
-create table album_foto_video (
-    album_ID int not null,                -- Indica a que album pertenece
-    foto_video_ID int not null,		      -- Indica la foto o el video que referencia
-    primary key(album_ID, foto_video_ID),    -- PK compuesta para evitarnos duplicados
-    foreign key(album_ID) references album(id),
-    foreign key(foto_video_ID) references foto_video(id)
+CREATE TABLE album_foto_video (
+    album_ID INT NOT NULL,
+    foto_video_ID INT NOT NULL,
+    PRIMARY KEY (album_ID , foto_video_ID),
+    FOREIGN KEY (album_ID)
+        REFERENCES album (id),
+    FOREIGN KEY (foto_video_ID)
+        REFERENCES foto_video (id)
 );
 
-create table colaborador(
-	idUsuario int not null,
-    idAlbum int not null,
-    foreign key(idUsuario) references usuario(id),
-	foreign key(idAlbum) references album(id)
+CREATE TABLE colaborador (
+    idUsuario INT NOT NULL,
+    idAlbum INT NOT NULL,
+    FOREIGN KEY (idUsuario)
+        REFERENCES usuario (id),
+    FOREIGN KEY (idAlbum)
+        REFERENCES album (id),
+    PRIMARY KEY (idUsuario , idAlbum)
 );

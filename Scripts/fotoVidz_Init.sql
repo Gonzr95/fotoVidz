@@ -1,11 +1,11 @@
 use fotoVidz;
 
 insert into usuario (mail, nombreDeUsuario, pass, hashedPass) VALUES
-('usuario1@email.com', 'usuario1', 'Inicio1', 'a'),
-('usuario2@email.com', 'usuario2', 'Inicio1', 'a'),
-('usuario3@email.com', 'usuario3', 'Inicio1', 'a'),
-('usuario4@email.com', 'usuario4', 'Inicio1', 'a'),
-('usuario5@email.com', 'usuario5', 'Inicio1', 'a');
+('usuario1@email.com', 'usuario1', 'Inicio1', 'a', '1995-08-10'),
+('usuario2@email.com', 'usuario2', 'Inicio1', 'a', '1980-02-10'),
+('usuario3@email.com', 'usuario3', 'Inicio1', 'a', '2000-06-09'),
+('usuario4@email.com', 'usuario4', 'Inicio1', 'a', '2014-03-28'),
+('usuario5@email.com', 'usuario5', 'Inicio1', 'a', '2009-04-07');
 select * from usuario;
 
 insert into seguimiento (idUsuario, idUsuarioSeguido) VALUES

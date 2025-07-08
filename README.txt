@@ -6,13 +6,16 @@ El fin de este proyecto es la puesta en practica de los conocimientos y buenas p
 	Se realizo con Draw.IO un diseño conceptual de la BD. Se modelaron entidades, sus relaciones, y restricciones. Se aplicaron practicas profesionales de normalizacion de tablas, integridad referencial y un diseño orientado a consultas eficientes.
 
 Que contiene el proyecto?
+
 DER: Diagrama de entidad relación como imagen y como archivo XML para visualizarlo
 con draw.io y Tambien un JPG de dicho diagrama
+
 Scripts: 
-	creation: para la creación de la BD y sus tablas
+	creation: para la creación de la BD y sus tablas que se encuentran normalizadas hasta 5FN
 	init: para la instanciación de las entidades 
+
 Querys:
-	fotoVidz_commonQuerys: aca vamos a encontrar consultas de nivel basico intermedio que incluyen temas como funciones de agregacion, agrupacion, joins **agregar temas**
+	fotoVidz_commonQuerys: aca vamos a encontrar consultas de nivel basico intermedio que incluyen temas como funciones de agregacion, agrupacion, filtrado de datos, operadores de comparacion y logicos **agregar temas**
 Se responderan preguntas como:
 -Cuantos usuarios siguen a determinado usuario?
 -Cuantos usuarios tiene la app?
@@ -20,4 +23,8 @@ Se responderan preguntas como:
 -cuantas fotos tiene cada album?
 -etc
 
-	fotoVidz_intermediateQuerys: en este archivo encontraremos consultas de nivel intermedio que incluyen temas como subconsultas **agregar**
+	fotoVidz_intermediateQuerys: en este archivo encontraremos consultas de nivel intermedio que incluyen temas como subconsultas funciones de strings, joins, nulls, dates  **agregar**
+
+	fotoVidz_advancedQuerys: en este archivo encontraremos temas avanzados tales como: stored procedures, triggers, windows, views and subqueris
+
+

@@ -1,3 +1,25 @@
+/* ==============================================================================
+   SQL SELECT Query
+-------------------------------------------------------------------------------
+
+   Contenido:
+     1. SELECT ALL COLUMNS
+     2. SELECT SPECIFIC COLUMNS
+     3. WHERE CLAUSE
+     4. ORDER BY
+     5. GROUP BY
+     6. HAVING
+     7. DISTINCT
+     8. TOP
+     9. Combining Queries
+	 10. COOL STUFF - Additional SQL Features
+     
+     Mostrar todos los usuarios de la app
+     Mostrar los nombres de los usuarios y su fecha de nacimiento
+     
+=================================================================================
+*/
+
 use fotoVidz;
 show tables;
 
@@ -9,6 +31,45 @@ select * from foto_video;
 select * from geolocalizacion;
 select * from seguimiento;
 select * from usuario;
+
+
+-- Mostrar todos los usuarios de la app
+select * from usuario;
+
+-- Mostrar nombre y fecha de nacimiento de los usuarios
+select
+	nombreDeUsuario,
+    fechaNac
+from usuario;
+
+-- Mostrar nombre de usuario y edad de los usuarios
+select
+nombreDeUsuario,
+timestampdiff(YEAR, fechaNac, CURDATE()) as edad
+from usuario;
+
+-- mostrar nombre de usuario y edad de los usuarios mayores de edad
+select
+nombreDeUsuario,
+timestampdiff(YEAR, fechaNac, CURDATE()) as edad
+from usuario
+where timestampdiff(YEAR, fechaNac, CURDATE()) > 18;
+
+-- mostrar el promedio de edad de los usuarios que sea mayores de edad
+SELECT 
+    AVG(TIMESTAMPDIFF(YEAR, fechaNac, CURDATE())) AS edadPromedio
+FROM
+    usuario
+    WHERE timestampdiff(YEAR, fechaNac, CURDATE()) > 18;
+
+-- mostrar los usuarios ordenandolos por edad desc, mostrar nombre y edad
+SELECT 
+    nombreDeUsuario,
+    TIMESTAMPDIFF(YEAR, fechaNac, CURDATE()) AS edad
+FROM
+    usuario
+ORDER BY TIMESTAMPDIFF(YEAR, fechaNac, CURDATE()) DESC;
+
 
 -- cuantos usuarios tiene la app?
 SELECT 
