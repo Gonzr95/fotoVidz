@@ -1,7 +1,8 @@
 /* ==============================================================================
    SQL SELECT Query
 -------------------------------------------------------------------------------
-
+	NO TE OLVIDE DE 
+    USE fotoVidz;
    Contenido:
      1. SELECT COLUMNS & SPECIFIC COLUMNS
      2. WHERE CLAUSE + OPERADORES DE COMPARACIONN
@@ -12,7 +13,7 @@
      7. BETWEEN IN INKE 
      8. GROUP BY
      9. HAVING
-	 10. COOL STUFF - Additional SQL Features
+	 10. LITTLE JOINS
      
 =================================================================================
 */
@@ -25,7 +26,7 @@ Bloque 1 – SELECT ALL / SPECIFIC COLUMNS
 4.	Listar todos los filePath de fotos o videos y su subidoPor.
 5.	Mostrar todos los campos de la tabla geolocalizacion.
 */
-
+use fotoVidz;
 -- 1)
 SELECT * from usuario;
 
@@ -226,12 +227,59 @@ group by idUsuario
 having count(*) > 1 ;
 
 -- 46)
+select subidoPor as userID
+from foto_video
+where geolocalizacion_ID is null
+group by userID;
 
--- 47)
+-- 47) uso distinct para solo traer el mail 1 sola vez una vez encontrado que se encuentra etiquetado en 1 foto
+select distinct u.mail
+from usuario u
+join etiqueta e on e.etiquetaA_UserID = u.id;
 
 -- 48)
+select
+a.titulo as albumTitle,
+count(afv.foto_video_ID) as cantidadDeFotos
+from album a
+join album_foto_video afv on a.id = afv.album_ID
+where a.esPrivado = false
+group by a.id;
+
 
 -- 49)
+SELECT 
+    s.idUsuarioSeguido AS usuarioID,
+    COUNT(s.idUsuario) AS qtyFollows
+FROM
+    seguimiento s
+GROUP BY idUsuarioSeguido;
 
 -- 50)
+SELECT 
+    s.idUsuario, 
+    COUNT(DISTINCT a.id) AS cantidadAlbums
+FROM
+    seguimiento s
+        JOIN
+    album a ON s.idUsuario = a.creadoPor_UserID
+GROUP BY s.idUsuario
+ORDER BY s.idUsuario ASC;
+
+-- 51) nombres de usuario cantidad de follow y folloers y albums y creados dsp del 2024
+SELECT 
+    u.nombreDeUsuario, 
+    COUNT(distinct s1.idUsuarioSeguido) AS qtyFollows, 
+    COUNT(distinct s2.idUsuario) as qtyFollowers,
+    COUNT(distinct a.id) as qtyAlbums
+FROM
+    usuario u
+        LEFT JOIN
+    seguimiento s1 ON u.id = s1.idUsuario
+		LEFT JOIN
+	seguimiento s2 ON u.id = s2.idUsuarioSeguido
+		LEFT JOIN
+	album a on u.id = a.creadoPor_UserID AND a.fechaDeCreacion > '2026-12-12'
+GROUP BY u.id
+ORDER BY u.nombreDeUsuario ASC;
   
