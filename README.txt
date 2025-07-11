@@ -17,8 +17,7 @@ Scripts:
 Querys:
 	fotoVidz_commonQuerys: aca vamos a encontrar consultas de nivel basico intermedio que incluyen temas como funciones de agregacion, agrupacion, filtrado de datos, operadores de comparacion y logicos 
 
-	fotoVidz_intermediateQuerys: en este archivo encontraremos consultas de nivel intermedio que incluyen temas como subconsultas funciones de strings, joins, nulls, dates  **agregar**
+	fotoVidz_views: en este archivo encontraremos scripts de creacion y uso de vistas agregando condiciones
 
-	fotoVidz_advancedQuerys: en este archivo encontraremos temas avanzados tales como: stored procedures, triggers, windows, views and subqueris
-
+	fotoVidz_triggers: 
 
