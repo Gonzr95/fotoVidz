@@ -21,3 +21,5 @@ Querys:
 
 	fotoVidz_triggers: aca encontramos scripts de creacion de triggers y tablas para almacenar regitros de modificacion en tablas.
 
+	fotoVidz_StoredProcedures: aca encontramos la creacion y uso de stored procedures 
+
