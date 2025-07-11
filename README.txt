@@ -19,5 +19,5 @@ Querys:
 
 	fotoVidz_views: en este archivo encontraremos scripts de creacion y uso de vistas agregando condiciones
 
-	fotoVidz_triggers: 
+	fotoVidz_triggers: aca encontramos scripts de creacion de triggers y tablas para almacenar regitros de modificacion en tablas.
 
